@@ -1,6 +1,7 @@
 package com.build.biz.user;
 
 import com.build.XClass;
+import com.build.XFiled;
 
 /**
  * @Author dp
@@ -9,5 +10,9 @@ import com.build.XClass;
 @XClass
 public class User {
 
+    @XFiled
+    private Long userId;
+
+    private String userName;
 
 }

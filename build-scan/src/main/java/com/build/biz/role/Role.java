@@ -1,6 +1,7 @@
 package com.build.biz.role;
 
 import com.build.XClass;
+import com.build.XMethod;
 
 /**
  * @Author dp
@@ -8,5 +9,10 @@ import com.build.XClass;
  */
 @XClass
 public class Role {
+
+    @XMethod
+    public void getRole(String roleId){
+
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.build;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
  * @Date 2024/2/23
  */
 
-public class ClassScanHelper {
+public class AnnotationScanHelper {
 
 
     public static List<Class> classAnnotationScan(String packageName, Class anotation) throws ClassNotFoundException {
@@ -22,6 +24,36 @@ public class ClassScanHelper {
             return classList.stream().filter(c -> !c.isAnnotation() && c.isAnnotationPresent(anotation)).collect(Collectors.toList());
         }
         return null;
+    }
+
+    public static List<AnnotationMethodInfo> methodAnnotationScan(String packageName, Class anotation) throws ClassNotFoundException {
+        //获取对应包下的所有class
+        List<Class> classList = loadClassFormPackage(packageName);
+        List<AnnotationMethodInfo> methodInfoList = new ArrayList<>();
+        for (Class aClass : classList) {
+            Method[] methods = aClass.getMethods();
+            for (Method method : methods) {
+                if (method.isAnnotationPresent(anotation)) {
+                    methodInfoList.add(new AnnotationMethodInfo(aClass, method));
+                }
+            }
+        }
+        return methodInfoList;
+    }
+
+    public static List<AnnotationFieldInfo> filedAnnotationScan(String packageName, Class anotation) throws ClassNotFoundException {
+        //获取对应包下的所有class
+        List<Class> classList = loadClassFormPackage(packageName);
+        List<AnnotationFieldInfo> annotationFieldInfoList = new ArrayList<>();
+        for (Class aClass : classList) {
+            Field[] fields = aClass.getDeclaredFields();
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(anotation)) {
+                    annotationFieldInfoList.add(new AnnotationFieldInfo(aClass, field));
+                }
+            }
+        }
+        return annotationFieldInfoList;
     }
 
 
